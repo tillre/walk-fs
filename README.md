@@ -1,23 +1,21 @@
 Walk a directory
-================
+----------------
 
-API
----
+### API
 
 `walk(dir, [options], iterator, callback);`
 
-### Parameters:
+__Parameters__:
 
-`dir`: absolute directory
-`options`: optional, properties: `{ recursive: [boolean] }`
-`iterator`: function(path, stats), where stats is an instance of fs.Stats
-`callback`: function(err)
+* `dir`: absolute directory
+* `options`: optional, properties: `{ recursive: [boolean] }`
+* `iterator`: function(path, stats), where stats is an instance of fs.Stats
+* `callback`: function(err)
 
 Return false from the iterator to stop walking.
 
 
-Example
--------
+### Example
 
 ```javascript
 var walk = require('walk-fs');
@@ -31,7 +29,6 @@ walk(path.join(__dirname), function(path, stats) {
 
 ```
 
-Install
--------
+### Install
 
 `npm install walk-fs`
