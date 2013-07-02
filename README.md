@@ -20,7 +20,7 @@ Return false from the iterator to stop walking.
 ```javascript
 var walk = require('walk-fs');
 
-walk(path.join(__dirname), function(path, stats) {
+walk(__dirname, function(path, stats) {
   console.log(path, stats);
 
 }, function(err) {
