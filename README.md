@@ -8,7 +8,7 @@ Walk a directory
 __Parameters__:
 
 * `dir`: absolute directory
-* `options`: optional, properties: `{ recursive: [boolean] }`
+* `options`: optional, properties: `{ recursive: [default is true] }`
 * `iterator`: function(path, stats), where stats is an instance of fs.Stats
 * `callback`: function(err)
 
