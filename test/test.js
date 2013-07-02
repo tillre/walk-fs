@@ -28,7 +28,6 @@ describe('walk-fs', function() {
     }, function(err) {
       assert(!err);
       assert(items.length === 0);
-      
       done();
     });
   });
@@ -48,7 +47,6 @@ describe('walk-fs', function() {
     }, function(err) {
       assert(!err);
       assert(items.length === 0);
-      
       done();
     });
   });
@@ -65,7 +63,18 @@ describe('walk-fs', function() {
     }, function(err) {
       assert(!err);
       assert(calls === 1);
+      done();
+    });
+  });
+
+
+  it('should invoke the callback on error', function(done) {
+
+    walk(path.join(__dirname, 'not'), function(path, stats) {
+      assert(false);
       
+    }, function(err) {
+      assert(err);
       done();
     });
   });

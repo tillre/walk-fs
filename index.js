@@ -9,12 +9,18 @@ function merge(target, source) {
 }
 
 
+function handleError(options, callback, err) {
+  options.stop = true;
+  callback(err);
+}
+
+
 function walk(dir, options, iterator, callback) {
   if (options.stop) return;
   
   fs.readdir(dir, function(err, contents) {
-    if (err) callback(err);
     if (options.stop) return;
+    if (err) return handleError(options, callback, err);
     
     var numItems = contents.length;
     
@@ -23,8 +29,8 @@ function walk(dir, options, iterator, callback) {
       var item = path.join(dir, name);
       
       fs.stat(item, function(err, stats) {
-        if (err) callback(err);
         if (options.stop) return;
+        if (err) return handleError(options, callback, err);
         
         var ret = iterator(item, stats);
         if (typeof ret === 'boolean' && ret === false) {
@@ -33,9 +39,10 @@ function walk(dir, options, iterator, callback) {
         }
 
         if (stats.isDirectory() && options.recursive) {
+
           return walk(item, options, iterator, function(err) {
-            if (err) return callback(err);
             if (options.stop) return;
+            if (err) return handleError(options, callback, err);
             
             if (--numItems === 0) {
               callback();
