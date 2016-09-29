@@ -32,26 +32,27 @@ function walk(dir, options, iterator, callback) {
         if (options.stop) return;
         if (err) return handleError(options, callback, err);
         
-        var ret = iterator(item, stats);
-        if (typeof ret === 'boolean' && ret === false) {
-          options.stop = true;
-          return callback();
-        }
+        iterator(item, stats, function(ret){
+          if (typeof ret === 'boolean' && ret === false) {
+            options.stop = true;
+            return callback();
+          }
 
-        if (stats.isDirectory() && options.recursive) {
+          if (stats.isDirectory() && options.recursive) {
 
-          return walk(item, options, iterator, function(err) {
-            if (options.stop) return;
-            if (err) return handleError(options, callback, err);
+            return walk(item, options, iterator, function(err) {
+              if (options.stop) return;
+              if (err) return handleError(options, callback, err);
             
-            if (--numItems === 0) {
-              callback();
-            }
-          });
-        }
-        if (--numItems === 0) {
-          callback();
-        }
+              if (--numItems === 0) {
+                callback();
+              }
+            });
+          }
+          if (--numItems === 0) {
+            callback();
+          }
+        });  
       });
     });
   });

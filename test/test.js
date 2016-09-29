@@ -22,9 +22,9 @@ describe('walk-fs', function() {
       return path.join(__dirname, item);
     });
     
-    walk(path.join(__dirname, 'a'), function(path, stats) {
+    walk(path.join(__dirname, 'a'), function(path, stats, next) {
       assert(removeItem(items, path));
-      
+      next();
     }, function(err) {
       assert(!err);
       assert(items.length === 0);
@@ -41,9 +41,9 @@ describe('walk-fs', function() {
       return path.join(__dirname, item);
     });
     
-    walk(path.join(__dirname, 'a'), { recursive: false }, function(path, stats) {
+    walk(path.join(__dirname, 'a'), { recursive: false }, function(path, stats, next) {
       assert(removeItem(items, path));
-
+	  next();
     }, function(err) {
       assert(!err);
       assert(items.length === 0);
@@ -56,9 +56,9 @@ describe('walk-fs', function() {
 
     var calls = 0;
     
-    walk(path.join(__dirname, 'a'), function(path, stats) {
+    walk(path.join(__dirname, 'a'), function(path, stats, next) {
       ++calls;
-      return false;
+      next(false);
       
     }, function(err) {
       assert(!err);
@@ -70,9 +70,9 @@ describe('walk-fs', function() {
 
   it('should invoke the callback on error', function(done) {
 
-    walk(path.join(__dirname, 'not'), function(path, stats) {
+    walk(path.join(__dirname, 'not'), function(path, stats, next) {
       assert(false);
-      
+      next();
     }, function(err) {
       assert(err);
       done();
