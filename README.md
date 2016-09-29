@@ -9,7 +9,7 @@ __Parameters__:
 
 * `dir`: absolute directory
 * `options`: optional, properties: `{ recursive: [default is true] }`
-* `iterator`: function(path, stats), where stats is an instance of fs.Stats
+* `iterator`: function(path, stats, next), where stats is an instance of fs.Stats
 * `callback`: function(err)
 
 Return false from the iterator to stop walking.
@@ -20,9 +20,9 @@ Return false from the iterator to stop walking.
 ```javascript
 var walk = require('walk-fs');
 
-walk(__dirname, function(path, stats) {
+walk(__dirname, function(path, stats, next) {
   console.log(path, stats);
-
+  next();
 }, function(err) {
   assert(!err);
 });
